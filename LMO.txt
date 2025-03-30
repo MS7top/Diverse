@@ -1,0 +1,336 @@
+local ScreenGui = Instance.new("ScreenGui")
+local TextLabel = Instance.new("TextLabel")
+
+ScreenGui.Parent = game.CoreGui
+
+TextLabel.Parent = ScreenGui
+TextLabel.Size = UDim2.new(0, 200, 0, 50)
+TextLabel.Position = UDim2.new(0.5, -100, 0.5, -25)
+TextLabel.BackgroundTransparency = 1
+TextLabel.Text = "< رمضـــان كـريــم >"
+TextLabel.TextColor3 = Color3.fromRGB(3, 48, 252)
+TextLabel.TextSize = 30
+TextLabel.Font = Enum.Font.SourceSansBold
+
+wait(3)
+ScreenGui:Destroy()
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/MS7top/GUI/refs/heads/main/BlueGui.txt"))()
+MakeWindow({
+  Hub = {
+    Title = "LMO HUB | UPD 0.2",
+    Animation = "ارحـب/ي"
+  },
+  Key = {
+    KeySystem = false,
+    Title = "Key System",
+    Description = "",
+    KeyLink = "",
+    Keys = {"1234"},
+    Notifi = {
+      Notifications = true,
+      CorrectKey = "Running the Script...",
+      Incorrectkey = "The key is incorrect",
+      CopyKeyLink = "Copied to Clipboard"
+    }
+  }
+})
+MinimizeButton({
+  Image = "rbxassetid://126227182266463",
+  Size = {50, 50},
+  Color = Color3.fromRGB(10, 10, 10),
+  Corner = true,
+  Stroke = true,
+  StrokeColor = Color3.fromRGB(255, 255, 255)
+})
+
+
+local Main = MakeTab({Name = "مـعـلـومـات"})
+
+local Image = AddImageLabel(Main, {
+  Name = "الـعـم!!؟",
+  Image = "rbxassetid://126227182266463",
+})
+
+local section = AddSection(Main, {"السـكـربـت عـباره عـن سكــربتات كـثـيـره جـربـها واســتمـتع"})
+local section = AddSection(Main, {"-----------------------------------------------------------------------------------------------"})
+local section = AddSection(Main, {"الـســكربتات | مــحمدَ"})
+
+AddButton(Main, {
+  Name = "انـسـخ حـسـاب الـمـطـور مـحـمـدٌ روبـلـوكـس",
+  Callback = function()
+    setclipboard('SLS25KRAR')
+  end
+})
+
+AddButton(Main, {
+  Name = "انـسـخ حـسـاب الـمـطـور مـحـمـد تـيـك",
+  Callback = function()
+    setclipboard('38c_j3')
+  end
+})
+
+local section = AddSection(Main, {"صـانـع الواجــهه | ســـيفّ"})
+
+AddButton(Main, {
+  Name = "انـسـخ حـسـاب الـمـطـور سـيـف روبـلوكـس",
+  Callback = function()
+    setclipboard('uooooo943')
+  end
+})
+
+AddButton(Main, {
+  Name = "انـسـخ حـسـاب الـمـطـور سـيـف تـيـك",
+  Callback = function()
+    setclipboard('uooooo943')
+  end
+})
+
+local Main = MakeTab({Name = "Brookhaven"})
+
+AddButton(Main, {
+  Name = "سـكـربـت الـمـطـور محمدٌ",
+  Callback = function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/MS7top/MS7/refs/heads/main/MS7"))()
+  end
+})
+
+AddButton(Main, {
+  Name = "سـكربـت طـيران",
+  Callback = function()
+    loadstring("\108\111\97\100\115\116\114\105\110\103\40\103\97\109\101\58\72\116\116\112\71\101\116\40\40\39\104\116\116\112\115\58\47\47\103\105\115\116\46\103\105\116\104\117\98\117\115\101\114\99\111\110\116\101\110\116\46\99\111\109\47\109\101\111\122\111\110\101\89\84\47\98\102\48\51\55\100\102\102\57\102\48\97\55\48\48\49\55\51\48\52\100\100\100\54\55\102\100\99\100\51\55\48\47\114\97\119\47\101\49\52\101\55\52\102\52\50\53\98\48\54\48\100\102\53\50\51\51\52\51\99\102\51\48\98\55\56\55\48\55\52\101\98\51\99\53\100\50\47\97\114\99\101\117\115\37\50\53\50\48\120\37\50\53\50\48\102\108\121\37\50\53\50\48\50\37\50\53\50\48\111\98\102\108\117\99\97\116\111\114\39\41\44\116\114\117\101\41\41\40\41\10\10")()
+  end
+})
+
+AddButton(Main, {
+  Name = "ســكربت طيـران سيـاره نادر",
+  Callback = function()
+    loadstring(game:HttpGet("https://scriptblox.com/raw/Universal-Script-Fly-Car-Mobile-gui-11884"))()
+  end
+})
+
+AddButton(Main, {
+  Name = "ســكــربت الادمــن Infinite Yield",
+  Callback = function()
+    loadstring(game:HttpGet("https://scriptblox.com/raw/Infinite-Yield_500"))() 
+  end
+})
+
+AddButton(Main, {
+  Name = "ســكــربت رقـصـات",
+  Callback = function()
+    loadstring(game:HttpGet("https://rawscripts.net/raw/Baseplate-Fe-All-Emote-7386"))()
+  end
+})
+
+AddButton(Main, {
+  Name = "سـكـربـت Universal",
+  Callback = function()
+    loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-rochips-universal-18294"))()
+  end
+})
+
+AddButton(Main, {
+  Name = "سـكربـت قـفـل الـشـاشـه",
+  Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/mohamed18899/Scren-Lok/main/Scren%20Lok"))()
+  end
+})
+
+AddButton(Main, {
+  Name = "سـكـربت يطيـر النـاس بالـكـنـبه (Fling)",
+  Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/0Ben1/fe./main/Fling%20GUI"))()
+  end
+})
+
+AddButton(Main, {
+  Name = "سـكـربت رحــمه VR7",
+  Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/VR7ss/OMK/refs/heads/main/VR7-ON-TOP"))()
+  end
+})
+
+local Main = MakeTab({Name = "Blox Fruit"})
+
+
+AddButton(Main, {
+  Name = "سكربت RedzHup",
+  Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/realredz/BloxFruits/refs/heads/main/Source.lua"))()
+  end
+})
+
+AddButton(Main, {
+  Name = "سكربت الـمـوزه",
+  Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/main/BananaHub.lua"))()
+  end
+})
+
+AddButton(Main, {
+  Name = "سكربت جـمـيل",
+  Callback = function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/AnDepZaiHub/AnDepZaiHubBeta/refs/heads/main/AnDepZaiHubNewUpdated.lua"))()
+  end
+})
+
+AddButton(Main, {
+  Name = "سكربت HOHO",
+  Callback = function()
+    loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-HoHo-Hub-+15-Games-2392"))()
+  end
+})
+
+AddButton(Main, {
+  Name = "سكربت القمر",
+  Callback = function()
+loadstring(game:HttpGet"https://raw.githubusercontent.com/UserDevEthical/Loadstring/main/CokkaHub.lua")()
+  end
+})
+
+AddButton(Main, {
+  Name = "سكربت فارم و تجميع صناديق",
+  Callback = function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Slimexiuem/MenuSlime/main/Farmchestv2"))()
+  end
+})
+
+AddButton(Main, {
+  Name = "سكربت نـيـنـجا بلوكس",
+  Callback = function()
+loadstring(game:HttpGet"https://raw.githubusercontent.com/Basicallyy/Basicallyy/main/MinGamingV4.lua")()
+  end
+})
+
+AddButton(Main, {
+  Name = "سكربت حـلـَو",
+  Callback = function()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1st-Mars/Annie/main/1st.lua'))()
+  end
+})
+
+AddButton(Main, {
+  Name = "سكربت مـيـراچ",
+  Callback = function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/AAwful/VectorHub/main/Loader.lua"))()
+  end
+})
+
+AddButton(Main, {
+  Name = "سكربت مـفـيد",
+  Callback = function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/DarkScripter1/Main/refs/heads/main/Script"))()
+  end
+})
+
+AddButton(Main, {
+  Name = "سكربت مـتـنـوع",
+  Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/100DaysWithoutHuman/100DaysBF/refs/heads/main/Bloxfruits"))()
+  end
+})
+
+local Main = MakeTab({Name = "Blade Ball"})
+
+AddButton(Main, {
+  Name = "صـد الكره اوتو ماتيكي️ (صـنـع الـمـطـور مـحـمـدٌ)",
+  Callback = function()
+    
+    local RunService = game:GetService("RunService") or game:FindFirstDescendant("RunService")
+local Players = game:GetService("Players") or game:FindFirstDescendant("Players")
+local VirtualInputManager = game:GetService("VirtualInputManager") or game:FindFirstDescendant("VirtualInputManager")
+
+local Player = Players.LocalPlayer
+
+local Cooldown = tick()
+local IsParried = false
+local Connection = nil
+
+local function GetBall()
+  for _, Ball in ipairs(workspace.Balls:GetChildren()) do
+    if Ball:GetAttribute("realBall") then
+      return Ball
+    end
+  end
+end
+
+local function ResetConnection()
+    if Connection then
+        Connection:Disconnect()
+        Connection = nil
+    end
+end
+
+workspace.Balls.ChildAdded:Connect(function()
+    local Ball = GetBall()
+    if not Ball then return end
+    ResetConnection()
+    Connection = Ball:GetAttributeChangedSignal("target"):Connect(function()
+        Parried = false
+    end)
+end)
+
+RunService.PreSimulation:Connect(function()
+    local Ball, HRP = GetBall(), Player.Character.HumanoidRootPart
+    if not Ball or not HRP then
+      return
+    end
+    
+    local Speed = Ball.zoomies.VectorVelocity.Magnitude
+    local Distance = (HRP.Position - Ball.Position).Magnitude
+    
+    if Ball:GetAttribute("target") == Player.Name and not Parried and Distance / Speed <= 0.55 then
+      VirtualInputManager:SendMouseButtonEvent(0, 0, 0, true, game, 0)
+      Parried = true
+      Cooldown = tick()
+      
+      if (tick() - Cooldown) >= 1 then
+        Partied = false
+      end
+    end
+end)
+
+    
+  end
+})
+
+AddButton(Main, {
+  Name = "سكربت بلـيـد بــول خـفيف بسيـــط",
+  Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Joystickplays/psychic-octo-invention/main/yarhm.lua", false))()
+  end
+})
+
+local Main = MakeTab({Name = "Murder Mystery 2"})
+
+AddButton(Main, {
+  Name = "سكربت ام ام تو بـسيط",
+  Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Joystickplays/psychic-octo-invention/main/yarhm.lua", false))()
+  end
+})
+
+AddButton(Main, {
+  Name = "سكربت ام ام تو فارم",
+  Callback = function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/vertexpeak/vertex/refs/heads/main/loadstring"))()
+  end
+})
+
+
+local Main = MakeTab({Name = "Blue Luck"})
+
+AddButton(Main, {
+  Name = "سـكـربت بـلو لـوك (يـحـتاج مـفتاح)",
+  Callback = function()
+    loadstring(game:HttpGet("https://scripts.alchemyhub.xyz"))()
+  end
+})
+
+AddButton(Main, {
+  Name = "سـكربت بـلو لـوك بـمـفتاح",
+  Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Youifpg/TBD_HUB/refs/heads/main/BlueLock%3ARivals22%25.lua"))()
+  end
+})
