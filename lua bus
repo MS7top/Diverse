@@ -1,0 +1,129 @@
+local redzlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/MS7top/GUI/refs/heads/main/Redz"))()
+local Window = redzlib:MakeWindow({"Hiber X | Brookhaven RP", "v0.5", "testando-redzLibv5.json"})
+            Window:AddMinimizeButton({
+              Button = { Image = redzlib:GetIcon("rbxassetid://87642219147452"), BackgroundTransparency = 0 },
+              Corner = { CornerRadius = UDim.new(0, 6) }
+            })
+            
+local Tab = Window:MakeTab({"! -- Main -- !", "Info"})
+
+local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+local RunService = game:GetService("RunService")
+
+local playerNames = {}
+for _, player in pairs(Players:GetPlayers()) do
+    table.insert(playerNames, player.Name)
+end
+
+local selectedPlayerName = nil
+local Dropdown = Tab:AddDropdown({
+  Name = "Players List",
+  Description = "Select the <font color='rgb(88, 101, 242)'>Number</font>",
+  Options = playerNames,
+  Default = "",
+  Flag = "dropdown teste",
+  Callback = function(selected)
+        selectedPlayerName = selected   
+  end
+})
+
+Tab:AddButton({"جرب اقتل؟ ", function()
+        if not selectedPlayerName then
+            print("Nenhum jogador selecionado!")
+            return
+        end
+
+        local player = Players.LocalPlayer    
+        local character = player.Character or player.CharacterAdded:Wait()    
+        local humanoidRootPart = character:WaitForChild("HumanoidRootPart")    
+
+        -- Armazena a posição inicial do player antes do fling    
+        originalPosition = humanoidRootPart.CFrame    
+
+        -- Função para obter o ônibus    
+        local function GetBus()    
+            local vehicles = Workspace:FindFirstChild("Vehicles")    
+            if vehicles then    
+                return vehicles:FindFirstChild(player.Name.."Car")    
+            end    
+            return nil    
+        end    
+
+        local bus = GetBus()    
+
+        -- Se o ônibus não existir, tenta spawnar um    
+        if not bus then    
+            humanoidRootPart.CFrame = CFrame.new(1118.81, 75.998, -1138.61)    
+            task.wait(0.5)    
+            local remoteEvent = ReplicatedStorage:FindFirstChild("RE")    
+            if remoteEvent and remoteEvent:FindFirstChild("1Ca1r") then    
+                remoteEvent["1Ca1r"]:FireServer("PickingCar", "SchoolBus")    
+            end    
+            task.wait(1)    
+            bus = GetBus()    
+        end    
+
+        -- Se conseguiu spawnar, tenta sentar no banco do motorista    
+        if bus then    
+            local seat = bus:FindFirstChild("Body") and bus.Body:FindFirstChild("VehicleSeat")    
+            if seat and character:FindFirstChildOfClass("Humanoid") and not character.Humanoid.Sit then    
+                repeat    
+                    humanoidRootPart.CFrame = seat.CFrame * CFrame.new(0, 2, 0)    
+                    task.wait()    
+                until character.Humanoid.Sit or not bus.Parent    
+            end    
+        end    
+
+        -- Sistema para seguir o jogador e detectar quando ele estiver sentado    
+        local function TrackPlayer()    
+            while true do    
+                if selectedPlayerName then    
+                    local targetPlayer = Players:FindFirstChild(selectedPlayerName)    
+                    if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then    
+                        local targetHumanoid = targetPlayer.Character:FindFirstChildOfClass("Humanoid")    
+                        if targetHumanoid and targetHumanoid.Sit then    
+                            -- Quando o jogador senta, execute o pulo imediatamente    
+                            if character.Humanoid then    
+                                -- Leva o ônibus para a coordenada do "void"    
+                                bus:SetPrimaryPartCFrame(CFrame.new(destination)) -- Movendo para o void    
+                                print("Jogador sentou, levando ônibus para a coordenada!")    
+
+                                -- Espera 0.2 segundos após levar o ônibus para o void antes de fazer o pulo    
+                                task.wait(0.2)    
+
+                                -- Simula o clique no botão de pulo do Roblox    
+                                local function simulateJump()    
+                                    local humanoid = player.Character and player.Character:FindFirstChildWhichIsA("Humanoid")    
+                                    if humanoid then    
+                                        humanoid:ChangeState(Enum.HumanoidStateType.Jumping)    
+                                    end    
+                                end    
+
+                                -- Simulando o pulo    
+                                simulateJump()    
+
+                                print("Simulando clique no botão de pulo!")    
+
+                                -- Após o pulo, teleportar o player para a posição inicial    
+                                task.wait(0.5)    
+                                humanoidRootPart.CFrame = originalPosition    
+                                print("Player teletransportado para a posição inicial!")    
+                            end    
+
+                            break    
+                        else    
+                            -- Seguir o jogador, movendo o ônibus rápido    
+                            local targetRoot = targetPlayer.Character.HumanoidRootPart    
+                            local offset = math.sin(tick() * 32) * 8    
+                            bus:SetPrimaryPartCFrame(targetRoot.CFrame * CFrame.new(0, 0, -2) * CFrame.new(offset, 0, -2))  
+                        end    
+                    end    
+                end    
+                RunService.RenderStepped:Wait()    
+            end    
+        end    
+
+        -- Inicia o rastreamento    
+        spawn(TrackPlayer)    
+end})
