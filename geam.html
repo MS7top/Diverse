@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>لعبة القفز - By F2</title>
+  <style>
+    body {
+      margin: 0; 
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to top, #87ceeb 0%, #ffffff 100%);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      user-select: none;
+    }
+    #gameCanvas {
+      background: #7ec850;
+      border: 3px solid #333;
+      display: block;
+    }
+    #score {
+      font-size: 28px;
+      color: #2c3e50;
+      margin: 15px 0 5px 0;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      text-shadow: 1px 1px 2px #fff;
+    }
+    #level {
+      font-size: 24px;
+      color: #555;
+      margin-bottom: 5px;
+      font-weight: bold;
+      letter-spacing: 1.2px;
+    }
+  </style>
+</head>
+<body>
+  <div id="level">المرحلة: 1</div>
+  <div id="score">النقاط: 0</div>
+  <canvas id="gameCanvas" width="600" height="200"></canvas>
+
+  <audio id="bgMusic" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_09f794f5b2.mp3?filename=happy-background-1122.mp3" type="audio/mpeg" />
+    متصفحك لا يدعم تشغيل الموسيقى.
+  </audio>
+
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const scoreEl = document.getElementById('score');
+    const levelEl = document.getElementById('level');
+    const bgMusic = document.getElementById('bgMusic');
+
+    const player = {
+      x: 50,
+      y: 150,
+      radius: 20,
+      color: '#2196f3',
+      dy: 0,
+      gravity: 0.7,
+      jumpForce: -12,
+      grounded: false
+    };
+
+    let obstacles = [];
+    let obstacleTimer = 0;
+
+    const obstacleWidth = 15;
+    const obstacleHeight = 20;
+
+    let obstacleInterval = 130;
+    let obstacleSpeed = 3;
+
+    let score = 0;
+    let level = 1;
+    let gameOver = false;
+
+function pointsNeededForLevel(level) {
+  return 9 + level;
+}
+
+    const jumpSound = new Audio("https://actions.google.com/sounds/v1/cartoon/slide_whistle_to_drum_hit.ogg");
+    const winSound = new Audio("https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg");
+    const pointSound = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg");
+
+    const colors = ['#d32f2f', '#c2185b', '#f57c00', '#1976d2', '#388e3c'];
+
+    function jump() {
+      if (player.grounded && !gameOver) {
+        player.dy = player.jumpForce;
+        player.grounded = false;
+        jumpSound.play();
+      }
+    }
+
+    window.addEventListener('keydown', e => {
+      if (e.code === 'Space') {
+        if (gameOver) restartGame();
+        else jump();
+      }
+    });
+    window.addEventListener('touchstart', e => {
+      e.preventDefault();
+      if (gameOver) restartGame();
+      else jump();
+    }, { passive: false });
+
+    function createObstacle() {
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      obstacles.push({
+        x: canvas.width,
+        y: 180 - obstacleHeight,
+        width: obstacleWidth,
+        height: obstacleHeight,
+        color: color
+      });
+    }
+
+    function updateDifficulty() {
+      if (level <= 5) {
+        obstacleSpeed = 3;
+        obstacleInterval = 130;
+      } else if (level <= 10) {
+        obstacleSpeed = 5;
+        obstacleInterval = 100;
+      } else if (level <= 15) {
+        obstacleSpeed = 7;
+        obstacleInterval = 80;
+      } else if (level <= 20) {
+        obstacleSpeed = 9;
+        obstacleInterval = 60;
+      } else if (level <= 25) {
+        obstacleSpeed = 12;
+        obstacleInterval = 45;
+      } else {
+        obstacleSpeed = 15;
+        obstacleInterval = 30;
+      }
+    }
+
+    let groundOffset = 0;
+
+    function circleRectCollision(cx, cy, radius, rx, ry, rw, rh) {
+      let nearestX = Math.max(rx, Math.min(cx, rx + rw));
+      let nearestY = Math.max(ry, Math.min(cy, ry + rh));
+
+      let dx = cx - nearestX;
+      let dy = cy - nearestY;
+      return (dx * dx + dy * dy) < (radius * radius);
+    }
+
+    function update() {
+      if (gameOver) return;
+
+      player.dy += player.gravity;
+      player.y += player.dy;
+
+      if (player.y + player.radius >= 180) {
+        player.y = 180 - player.radius;
+        player.dy = 0;
+        player.grounded = true;
+      }
+
+      obstacleTimer++;
+      if (obstacleTimer > obstacleInterval) {
+        createObstacle();
+        obstacleTimer = 0;
+      }
+
+      for (let i = obstacles.length - 1; i >= 0; i--) {
+        obstacles[i].x -= obstacleSpeed;
+
+if (obstacles[i].x + obstacles[i].width < 0) {
+  obstacles.splice(i, 1);
+  score++;
+  scoreEl.textContent = 'النقاط: ' + score;
+  pointSound.play();
+  
+  if (score >= pointsNeededForLevel(level)) {
+    if (level === 30) {
+      gameOver = true;
+      scoreEl.textContent = `مبروك! أنهيت اللعبة بنقاط: ${score}`;
+      bgMusic.pause();
+      return;
+    }
+    level++;
+    levelEl.textContent = 'المرحلة: ' + level;
+
+    score = 0;
+    scoreEl.textContent = 'النقاط: ' + score;
+
+    updateDifficulty();
+    winSound.play();
+  }
+}
+
+        if (circleRectCollision(player.x, player.y, player.radius, obstacles[i].x, obstacles[i].y, obstacles[i].width, obstacles[i].height)) {
+          gameOver = true;
+          scoreEl.textContent = `انتهت اللعبة! نقاطك: ${score} - اضغط مسافة أو لمس الشاشة لإعادة اللعب`;
+          bgMusic.pause();
+        }
+      }
+
+      groundOffset -= obstacleSpeed / 2;
+      if (groundOffset <= -40) groundOffset = 0;
+    }
+
+    function drawSpikes(x, y, width) {
+      const spikeHeight = 10;
+      const spikeCount = 3;
+      const totalWidth = spikeCount * 8;
+      const startX = x + (width - totalWidth) / 2;
+
+      ctx.fillStyle = '#880000';
+      ctx.beginPath();
+      for (let i = 0; i < spikeCount; i++) {
+        const spikeX = startX + i * 8;
+        ctx.moveTo(spikeX, y);
+        ctx.lineTo(spikeX + 4, y - spikeHeight);
+        ctx.lineTo(spikeX + 8, y);
+      }
+      ctx.fill();
+      ctx.closePath();
+    }
+
+    function drawPlayerFace(x, y, radius) {
+      ctx.beginPath();
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
+      ctx.fillStyle = player.color;
+      ctx.fill();
+      ctx.closePath();
+
+      const eyeRadius = radius * 0.2;
+      const eyeY = y - radius * 0.3;
+      const eyeXOffset = radius * 0.5;
+
+      ctx.fillStyle = 'white';
+      ctx.beginPath();
+      ctx.arc(x - eyeXOffset, eyeY, eyeRadius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.closePath();
+
+      ctx.beginPath();
+      ctx.arc(x + eyeXOffset, eyeY, eyeRadius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.closePath();
+
+      const pupilRadius = eyeRadius * 0.5;
+      ctx.fillStyle = 'black';
+
+      ctx.beginPath();
+      ctx.arc(x - eyeXOffset, eyeY, pupilRadius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.closePath();
+
+      ctx.beginPath();
+      ctx.arc(x + eyeXOffset, eyeY, pupilRadius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.closePath();
+
+      ctx.beginPath();
+      ctx.strokeStyle = 'black';
+      ctx.lineWidth = 2;
+      ctx.moveTo(x - radius * 0.4, y + radius * 0.3);
+      ctx.quadraticCurveTo(x, y + radius * 0.6, x + radius * 0.4, y + radius * 0.3);
+      ctx.stroke();
+      ctx.closePath();
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      let gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      gradient.addColorStop(0, '#87ceeb');
+      gradient.addColorStop(1, '#a6d785');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#4caf50';
+      for (let i = 0; i < canvas.width / 40 + 2; i++) {
+        ctx.fillRect(i * 40 + groundOffset, 180, 40, 20);
+      }
+
+      ctx.beginPath();
+      ctx.ellipse(player.x, 180, player.radius * 1.1, player.radius * 0.4, 0, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0,0,0,0.2)';
+      ctx.fill();
+      ctx.closePath();
+
+      drawPlayerFace(player.x, player.y, player.radius);
+
+      obstacles.forEach(obs => {
+        ctx.fillStyle = obs.color;
+        ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+        drawSpikes(obs.x, obs.y, obs.width);
+      });
+    }
+
+    function gameLoop() {
+      update();
+      draw();
+      if (!gameOver) {
+        requestAnimationFrame(gameLoop);
+      }
+    }
+
+    function restartGame() {
+      obstacles = [];
+      obstacleTimer = 0;
+      score = 0;
+      level = 1;
+      gameOver = false;
+      player.y = 150;
+      player.dy = 0;
+      player.grounded = false;
+      scoreEl.textContent = 'النقاط: 0';
+      levelEl.textContent = 'المرحلة: 1';
+      updateDifficulty();
+      bgMusic.currentTime = 0;
+      bgMusic.play().catch(() => {});
+      gameLoop();
+    }
+
+    function playMusic() {
+      bgMusic.volume = 0.3;
+      bgMusic.play().catch(() => {});
+    }
+
+    window.onload = () => {
+      updateDifficulty();
+      playMusic();
+      gameLoop();
+    };
+  </script>
+</body>
+</html>
